@@ -15,7 +15,7 @@ end
 plot(x_p, y_p, '-bd'); hold on;
 plot(p_x, p_y, 'linewidth',2.5); hold on;
 
-for mu = 1:10
+for mu = 1:5
     xm_p = zeros(1, n+mu+1);
     ym_p = zeros(1, n+mu+1);
     for i = 0:n+mu

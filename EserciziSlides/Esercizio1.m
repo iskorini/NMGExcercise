@@ -1,5 +1,5 @@
 clear;
-a = 0; b = 2; n = 20;
+a = 0; b = 2; n = 4;
 precision = 0.0001;
 u = a:precision:b;
 r_u = (u-a)./(b-a);
