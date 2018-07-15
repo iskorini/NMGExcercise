@@ -3,7 +3,7 @@ precision = 0.0001;
 u = a:precision:b;
 r_u = (u-a)./(b-a);
 x_p = [0 1 3 6];
-y_p = [0 2 2 1];
+y_p = [0 2 2 -1];
 p_x = zeros(1, length(u));
 p_y = zeros(1, length(u));
 

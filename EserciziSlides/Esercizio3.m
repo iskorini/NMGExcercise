@@ -46,6 +46,16 @@ plot(x_p, y_p, '-O'); hold on; % original points
 plot(p1_x, p1_y, 'r', 'linewidth', 2.5); hold on; % first curve
 plot(p2_x, p2_y, 'g', 'linewidth', 2.5); hold on; % second curve
 display(and( c1_x(end) == c2_x(end), c1_y(end) == c2_y(end) )) %c0 continuity
+h1 = (u_star-a);
+h2 = (b-u_star);
+display( c1_x(end) == ((h1 / (h1+h2))*c2_x(end-1)) + ((h2 / (h1+h2))*c1_x(end-1))) ; %c1 continuity 
+display( c1_y(end) == ((h1 / (h1+h2))*c2_y(end-1)) + ((h2 / (h1+h2))*c1_y(end-1))) ; %c1 continuity
+first_continuity_c2x = (c1_x(end-1)+((h2/h1)*(c1_x(end-1)-c1_x(end-2))));
+second_continuity_c2x = (c2_x(end-1)+((h1/h2)*(c2_x(end-1)-c2_x(end-2))));
+display( first_continuity_c2x == second_continuity_c2x);
+first_continuity_c2y = (c1_y(end-1)+((h2/h1)*(c1_y(end-1)-c1_y(end-2))));
+second_continuity_c2y = (c2_y(end-1)+((h1/h2)*(c2_y(end-1)-c2_y(end-2))));
+display( eq(first_continuity_c2y,second_continuity_c2y)); %restituisce 0, ma sono uguali LOL
 function [Q_x,Q_y] = de_casteljau(n, x_p, y_p, u)
     Q_x = zeros(n+1, n+1);
     Q_y = zeros(n+1, n+1);
