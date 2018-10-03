@@ -1,0 +1,146 @@
+\documentclass[a4paper, 10pt]{article}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[italian]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{mathtools}
+\usepackage{epigraph}
+\usepackage{listings}
+\usepackage{amsfonts, mathtools, placeins, floatflt, xfrac, multirow, indentfirst, fancyhdr,
+            amssymb, latexsym, amsthm, eucal, float, tabularx, mdframed, bigdelim, blkarray,
+            relsize, lettrine, xcolor, tikz, caption, geometry, perpage}
+  \usepackage{courier}
+
+\usepackage[tiny]{titlesec}
+\usepackage{lmodern}
+\usepackage{tikz}
+\usepackage[object=vectorian]{pgfornament}
+\usetikzlibrary{calc}
+
+\newcommand{\sectionline}[2]{%
+  \nointerlineskip \vspace{.5\baselineskip}\hspace{\fill}
+  {\color{#1}
+    \resizebox{0.5\linewidth}{2ex}
+    {{%
+    {\begin{tikzpicture}
+    \node  (C) at (0,0) {};
+    \node (D) at (9,0) {};
+    \path (C) to [ornament=#2] (D);
+    \end{tikzpicture}}}}}%
+    \hspace{\fill}
+    \par\nointerlineskip \vspace{.5\baselineskip}
+  }
+
+
+
+ \makeatletter
+
+\def\vhrulefill#1{\leavevmode\leaders\hrule\@height#1\hfill \kern\z@}
+
+\makeatother
+
+\newcommand{\persendchap}{
+
+	\center 	{\vhrulefill{0.9pt} \pgfornament[scale = 0.50, symmetry=v, ydelta = -0.5pt]{11} FINE CAPITOLO \pgfornament[scale = 0.50, ydelta=-0.5pt]{11} \vhrulefill{0.9pt} }
+	\flushleft
+
+}
+
+%\renewcommand\thechapter{\arabic{chapter}}
+\definecolor{mygreen}{RGB}{28,172,0} 
+\definecolor{mylilas}{RGB}{170,55,241}
+
+\lstloadlanguages{Matlab, Fortran}
+ \lstset{
+         basicstyle=\footnotesize\ttfamily, 
+         numbers=left,              
+         morekeywords={matlab2tikz},
+         numberstyle=\tiny,        
+         numbersep=5pt,           
+         tabsize=2,                 
+         extendedchars=true,        
+         breaklines=true,           
+         keywordstyle=\color{blue},
+            frame=b,
+         showspaces=false,          
+         showtabs=false,            
+         xleftmargin=17pt,
+         framexleftmargin=17pt,
+         framexrightmargin=5pt,
+         framexbottommargin=4pt,
+         showstringspaces=false     
+              morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
+    identifierstyle=\color{black},%
+    stringstyle=\color{mylilas},
+    commentstyle=\color{mygreen},%
+    showstringspaces=false,
+ }
+
+
+\usepackage{caption}
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox[cmyk]{0.43, 0.35, 0.35,0.01}{\parbox{\textwidth}{\hspace{15pt}#1#2#3}}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white, singlelinecheck=false, margin=0pt, font={bf,footnotesize}}
+
+\begin{document}
+\renewcommand{\lstlistingname}{Codice}
+
+\include{titolo/titlePage}
+
+\tableofcontents
+
+%\vspace{30mm}
+
+%\begin{tikzpicture}[every node/.style={inner sep=0pt}]
+%\node[text width=8cm,align=center](Text){%
+%
+%
+%La matematica è una delle manifestazioni più significative dell'amore per la sapienza. Come tale è caratterizzata da un lato da una grande libertà, 
+%dall'altro dall'intuizione che il mondo è fatto di cose visibili e invisibili e la matematica ha forse una capacità, unica fra le altre scienze, 
+%di passare dall'osservazione delle cose visibili all'immaginazione delle cose invisibili. Questo forse è il segreto della forza della matematica.
+%
+%
+%\bigskip
+%
+%\vspace{24pt}
+%  Ennio De Giorgi
+%} ;
+%\node[shift={(-1cm,1cm)},anchor=north west](CNW)  at (Text.north west)
+%               {\pgfornament[width=2cm]{61}};
+%\node[shift={(1cm,1cm)},anchor=north east](CNE)   at (Text.north east)
+%               {\pgfornament[width=2cm,symmetry=v]{61}};
+%\node[shift={(-1cm,-1cm)},anchor=south west](CSW) at (Text.south west)
+%               {\pgfornament[width=2cm,symmetry=h]{61}};
+%\node[shift={(1cm,-1cm)},anchor=south east](CSE)  at (Text.south east)
+%               {\pgfornament[width=2cm,symmetry=c]{61}};
+%\pgfornamenthline{CNW}{CNE}{north}{87}
+%\pgfornamenthline{CSW}{CSE}{south}{87}
+%\pgfornamentvline{CNW}{CSW}{west}{87}
+%\pgfornamentvline{CNE}{CSE}{east}{87}
+%\end{tikzpicture}
+%
+%
+%\titleformat{\chapter}[display]
+%  {\normalfont\huge\bfseries\raggedleft}
+%  {\begin{tikzpicture}
+%  \node[text width=3cm,align=center] (chapnum)
+%    {\fontsize{100}{130}\color{gray}\selectfont\thechapter};%
+%  \node[shift={(-1cm,1cm)},anchor=north west](CNW)
+%    at (chapnum.north west) {\pgfornament[width=1.75cm]{61}};
+%  \node[shift={(1cm,1cm)},anchor=north east](CNE)
+%    at (chapnum.north east) {\pgfornament[width=1.75cm,symmetry=v]{61}};
+%  \node[shift={(-1cm,-1cm)},anchor=south west](CSW)
+%    at (chapnum.south west) {\pgfornament[width=1.75cm,symmetry=h]{61}};
+%  \node[shift={(1cm,-1cm)},anchor=south east](CSE)
+%    at (chapnum.south east) {\pgfornament[width=1.75cm,symmetry=c]{61}};
+%  \end{tikzpicture}
+%  }
+%  {20pt}
+%  {\Huge}
+
+
+
+
+
+\end{document}
