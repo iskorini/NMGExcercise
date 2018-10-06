@@ -284,8 +284,52 @@ tutte le splines della base, mentre in Figura~\ref{fig:first_property} è mostra
 
 
 \section{Curve B-Spline}
-A partire dalla base delle B-Spline è possibile realizzare delle curve. Dati 
+A partire dalla base delle B-Spline è possibile realizzare delle curve. Dati $n+1$ punti 
+di controllo la curva è definita come 
+$$\mathbf{X}(t) := \sum_{i=0}^{n} \mathbf{d_i} N_{i, k}(t)$$
+
 \subsection{Proprietà delle curve B-Spline}
+Le curve B-Spline godono di diverse proprietà:
+\begin{enumerate}
+  \item Invarianza per trasformazioni affini: la proprietà della base delle B-Spline di essere 
+  una partizione dell'unità garantisce che le curve B-Spline siano invarianti per trasformazioni affini, questo 
+  vuol dire che applicare la trasformazione affine sulla curva, o sui punti di controllo è indifferente in quanto il risultato non cambia.
+  \item Località: un segmento di curva è influenzato solamente da $k$ punti di controllo.
+  \item Strong Convex Hull: ogni punto sulla curva appartiene all'inviluppo convesso di $k$ punti di controllo consecutivi, con $k$ ordine 
+  delle funzioni spline.
+  \item Variation Diminishing: il numero di intersezioni tra una retta e la curva è minore o uguale al numero di intersezioni
+  tra la stessa retta ed il poligono di controllo.
+\end{enumerate}
+\paragraph{Invarianza per trasformazioni affini} In Codice~\ref{code:trasnformationspline} è 
+presente il codice con cui è stata applicata una trasformazione
+prima ai punti di controllo e poi alla curva. Come si può vedere dal 
+Codice~\ref{code:trasnformationspline} la 
+trasformazione applicata è stata una rotazione di $180$ gradi
+ed uno spostamento di $1$ su entrambi gli assi. Per generare la base con cui poi è 
+stata disegnata la curva è stata usata la funzione \texttt{spcol} del \textit{Curve Fitting Toolbox}.
+Un modo \textit{Naïve} con cui ci si può accertare della veridicità di questa proprietà è 
+guardando il Codice~\ref{code:trasnformationspline} e la Figura~\ref{fig:trasformationspline}; nel codice sono presenti 
+tre chiamate a funzione \texttt{plot}: la prima per la curva originale, la seconda per la curva sulla quale è
+stata applicata la trasformazione e la terza per la curva disegnata a partire dai punti di controllo
+sui quali è stata applicata la trasformazione. Si può però osservare che nella Figura~\ref{fig:trasformationspline} sono presenti due curve, 
+ciò vuol dire che
+due curve si sono sovrapposte.
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.75\textwidth]{figure/transformation_spline.eps}
+  \caption{Trasformazione affine su spline}
+  \label{fig:trasformationspline}
+\end{figure} 
+\lstinputlisting[label=code:trasnformationspline, firstline=2, language=Matlab, caption = Applicazone trasformazione affine]{code/b_spline_curve_prop_trans.m}
+\paragraph{Località} Per una curva B-Spline $\mathbf{X}(t^*)$ con $t^* \in [t_r, t_{r+1}]$ è determinata da 
+$k$ punti di controllo $d_{r-k+1}, \dots, d_{r}$. 
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.75\textwidth]{figure/loc_spline.eps}
+  \caption{Proprietà di località}
+  \label{fig:trasformationspline}
+\end{figure} 
+\lstinputlisting[label=code:locspline, firstline=2, language=Matlab, caption = Proprietà di località]{code/b_spline_curve_prop_loc.m}
 \subsection{Curve Chiuse}
 \section{Superfici di Bézier}
 \subsection{Proprietà delle superfici di Bézier}
