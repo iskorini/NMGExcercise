@@ -1,6 +1,9 @@
 Giannelli/Relazione/Elaborato.aux
 Giannelli/Relazione/Elaborato.log
 Giannelli/Relazione/Elaborato.toc
-Giannelli/Relazione/.DS_Store
 Giannelli/Relazione/titolo/titlePage.aux
 Giannelli/Relazione/Elaborato.synctex.gz
+*.DS_Store
+Giannelli/Relazione/figure/*.pdf
+Giannelli/Relazione/Elaborato.synctex.gz
+texput.log
