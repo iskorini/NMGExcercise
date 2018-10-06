@@ -1,5 +1,6 @@
 \documentclass[a4paper, 10pt]{article}
 \usepackage{amsmath}
+\usepackage{amsthm}
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage[italian]{babel}
@@ -82,14 +83,14 @@
 \DeclareCaptionFont{white}{\color{white}}
 \DeclareCaptionFormat{listing}{\colorbox[cmyk]{0.43, 0.35, 0.35,0.01}{\parbox{\textwidth}{\hspace{15pt}#1#2#3}}}
 \captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white, singlelinecheck=false, margin=0pt, font={bf,footnotesize}}
-
+\newtheorem{mydef}{Definizione}
 \begin{document}
 \renewcommand{\lstlistingname}{Codice}
 
 \include{titolo/titlePage}
 
 \tableofcontents
-
+\newpage
 %\vspace{30mm}
 
 %\begin{tikzpicture}[every node/.style={inner sep=0pt}]
@@ -139,14 +140,27 @@
 %  {20pt}
 %  {\Huge}
 
+\section{La Base delle B-Spline}
 
-\section{Curve B-Spline} 
-
-
-
-
-
-
-
+Dato un vettore esteso dei nodi
+$$ \mathbf{t} =  \left\{ \underbrace{t_{0}, \dots, t_{k-2}}_{k-1}, \underbrace{t_{k-1}, \dots, t_{n+1}}_{\tau_0, \tau_1, \dots, \tau_L}, \underbrace{t_{n+2}, \dots, t_{n+k}}_{k-1} \right\} $$
+con
+$$\mathbf{t_0} \leq t_1 \leq \dots t_{k+1} < t_k \dots < t_{n+1} \leq t_{n+2} \leq \dots \leq t_{n+k}$$
+possiamo definire la base delle B-Spline su nodi semplici tramite la relazione ricorrente di \textit{Cox-De Boor}.
+\begin{mydef}
+  Le B-Spline di ordine $1$, oppure grado $0$ sono definite come:
+$$N_{i, 1}(t) = \begin{cases} 1, & \text{se } t\in[t_i, t_{i+1}] i = 0, \dots, n+k-1 \\ 0, & \text{altrimenti} \end{cases}$$
+  Altrimenti le B-Spline di ordine $r \leq k$ sono definite ricorsivamente, per $r > 1$, come:
+  $$N_{i, r}(t) = \omega_{i,r}(t)N_{i, r-1}(t) + [1-\omega_{i+1, r}(t)]N_{i+1, r-1}$$
+  dove
+$$\omega_{i,r}(t) = \begin{cases} \frac{t-t_i}{t_{i+r-1}-t_i}, & \text{se } t<t_{i+r-1} \\ 0, & \text{altrimenti} \end{cases}$$
+\end{mydef}
+Le B-Spline possono anche essere definite su una partizione nodale la cui molteplicità $m_i$ di un generico nodo $\tau_i$ è più alta di $1$,
+quindi su nodi multipli. In questo caso il vettore esteso dei nodi diventa:
+$$ \mathbf{t} =  \left\{ \underbrace{t_{0}, \dots, t_{k-2}}_{k-1}, \underbrace{t_{k-1}, \dots, t_{n+1}}_{\tau_0, \tau_1, \dots, \tau_1 \dots, \tau_L}, \underbrace{t_{n+2}, \dots, t_{n+k}}_{k-1} \right\} $$
+con $\tau_i$ ripetuto a seconda della sua molteplicità $m_i$ con $i = 1, \dots, L-1$ in $\mathbf{t}$, e
+$$\mathbf{t_0} \leq t_1 \leq \dots t_{k+1} \leq  t_k \dots \leq  t_{n+1} \leq t_{n+2} \leq \dots \leq t_{n+k}$$.
+La definizione della base delle B-Spline di \textit{Cox-De Boor} non cambia, ma bisogna stare attenti in quanto 
+$\omega_{i,r}(t)$ può diventare nullo per qualche valore $r$  a causa dei nodi multipli.
 
 \end{document}
