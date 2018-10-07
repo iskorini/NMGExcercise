@@ -300,6 +300,9 @@ Le curve B-Spline godono di diverse proprietà:
   \item Variation Diminishing: il numero di intersezioni tra una retta e la curva è minore o uguale al numero di intersezioni
   tra la stessa retta ed il poligono di controllo.
 \end{enumerate}
+
+
+
 \paragraph{Invarianza per trasformazioni affini} In Codice~\ref{code:trasnformationspline} è 
 presente il codice con cui è stata applicata una trasformazione
 prima ai punti di controllo e poi alla curva. Come si può vedere dal 
@@ -321,6 +324,9 @@ due curve si sono sovrapposte.
   \label{fig:trasformationspline}
 \end{figure} 
 \lstinputlisting[label=code:trasnformationspline, firstline=2, language=Matlab, caption = Applicazone trasformazione affine]{code/b_spline_curve_prop_trans.m}
+
+
+
 \paragraph{Località} Per una curva B-Spline $\mathbf{X}(t^*)$ con $t^* \in [t_r, t_{r+1}]$ è determinata da 
 $k$ punti di controllo $d_{r-k+1}, \dots, d_{r}$. 
 \begin{figure}[h]
@@ -330,7 +336,50 @@ $k$ punti di controllo $d_{r-k+1}, \dots, d_{r}$.
   \label{fig:trasformationspline}
 \end{figure} 
 \lstinputlisting[label=code:locspline, firstline=2, language=Matlab, caption = Proprietà di località]{code/b_spline_curve_prop_loc.m}
+TODO: ALLUNGARE IL BRODO
+
+
+\paragraph{Strong Convex Hull}
+
+TODO: CODICE, FIGURE, SCRIVERE
+
+\paragraph{Variation Diminishing}
+TODO: SCRIVERE
+\lstinputlisting[label=code:locspline, firstline=2, language=Matlab, caption = Proprietà di Variation Diminishing]{code/b_spline_curve_prop_var_dim.m}
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}[b]{0.3\textwidth}
+    \includegraphics[width=\textwidth]{figure/intersection1.eps}
+    \caption{Poligono: $4$, Curva: $4$}
+    \label{fig:intersection1}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.3\textwidth}
+      \includegraphics[width=\textwidth]{figure/intersection3.eps}
+      \caption{Poligono: $4$, Curva: $4$}
+      \label{fig:intersection3}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.3\textwidth}
+      \includegraphics[width=\textwidth]{figure/intersection4.eps}
+      \caption{Poligono: $4$, Curva: $2$}
+      \label{fig:intersection4}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.3\textwidth}
+    \includegraphics[width=\textwidth]{figure/intersection5.eps}
+    \caption{Poligono: $4$, Curva: $2$}
+    \label{fig:intersection5}
+  \end{subfigure}
+  \caption{Proprietà di Variation Diminishing}\label{fig:intersection}
+\end{figure}
+
 \subsection{Curve Chiuse}
+TODO: CODICE, FIGURE, SCRIVERE
+
+
+
 \section{Superfici di Bézier}
+TODO: CODICE, FIGURE, SCRIVERE
+
+
 \subsection{Proprietà delle superfici di Bézier}
+TODO: CODICE, FIGURE, SCRIVERE
 \end{document}

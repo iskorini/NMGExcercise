@@ -1,10 +1,8 @@
 clear; close all;
-k = 3;
-knots = [0 0 0 1 1 2 3 4 4 5 5 5];
+k = 4;
+knots = [0 0 0 0 1 1 2 3 4 4 5 5 5 5];
 tau = knots(k):0.001:knots(end-k+1);
 c = spcol(knots, k, tau);
-x_p = [0.065668202764977;0.286866359447005;0.429723502304147;0.630184331797235;0.798387096774194;0.450460829493088;0.273041474654378;0.268433179723502;0.167050691244240];
-y_p =
 [x_p, y_p] = ginput(length(knots)-k);
 curve_x = zeros(size(c,1),1);
 curve_y = zeros(size(c,1),1);
@@ -13,6 +11,6 @@ for i = 1:length(x_p) %o y_p
     curve_x = curve_x + (x_p(i) * c(:, i));
     curve_y = curve_y + (y_p(i) * c(:, i));
 end
-plot(curve_x, curve_y, 'linewidth', 4); hold on;
-i = 1;
-plot(x_p(i), y_p(i), x_p(i+3), y_p(i+3), '-');_
+plot(curve_x, curve_y,'linewidth', 3); hold on;
+[x, y] = ginput(2);
+plot(x, y, '-', 'linewidth', 3);

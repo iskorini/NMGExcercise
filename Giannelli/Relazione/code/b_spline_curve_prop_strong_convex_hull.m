@@ -1,5 +1,5 @@
 clear; close all;
-k = 3;
+k = 4;
 knots = [0 0 0 1 1 2 3 4 4 5 5 5];
 tau = knots(k):0.001:knots(end-k+1);
 c = spcol(knots, k, tau);
