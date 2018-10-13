@@ -176,7 +176,7 @@ preso in considerazione anche l'ultimo valore dell'ultimo intervallo.
 \subsection{Esempi di basi}
 L'esempio più immediato di base è quello dove il vettore esteso dei nodi è uniforme, in questo caso abbiamo preso $\mathbf{t} = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]$ e $k = 5$, otterremo quindi $5$
 funzioni di base visualizzate in Figura~\ref{fig:first_basis}.
-\begin{figure}[h]
+\begin{figure}[]
   \centering
   \includegraphics[width=0.75\textwidth]{figure/uniform_not_multiple_basis.eps}
   \caption{Base con $\mathbf{t} = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]$ e $k = 5$}
@@ -186,7 +186,7 @@ funzioni di base visualizzate in Figura~\ref{fig:first_basis}.
 Cambiando il vettore esteso dei nodi $\mathbf{t}$ otteniamo basi per le B-Spline con regolarità diversa.
 In Figura~\ref{fig:animals} viene mostrato cosa succede tenendo fissato il numero di nodi e l'ordine e aumentato la molteplicità del nodo $4$.
 
-\begin{figure}[h]
+\begin{figure}[]
   \centering
   \begin{subfigure}[b]{0.3\textwidth}
     \includegraphics[width=\textwidth]{figure/6_41.eps}
@@ -221,7 +221,7 @@ dato $[a, b] = [\tau_0, \tau_L]$, la partizione nodale estesa è formata solamen
 e $b$ ripetuto altrettante $k$ volte. In Figura~\ref{fig:bernstein} è mostrato un esempio di base ottenuta con 
 i polinomi di Bernstein di grado $5$.
 
-\begin{figure}[h]
+\begin{figure}[]
   \centering
   \includegraphics[width=0.75\textwidth]{figure/bernstein5_from_cox_de_boor.eps}
   \caption{Base di Bernstein di ordine $5$}
@@ -248,13 +248,13 @@ con $\mathbf{t} = [0, 0, 0, 1, 1, 2, 3, 3, 3]$. Le splines saranno le seguenti:
 \end{itemize}
 Facendo un plot di questa base possiamo vedere come la proprietà di supporto locale sia verificata, in particolare in Figura~\ref{fig:local_support} sono mostrate
 tutte le splines della base, mentre in Figura~\ref{fig:first_property} è mostrato un dettaglio della $N_{1, 4}(t)$ per $t = [0.85, 1.15]$.
-\begin{figure}[h]
+\begin{figure}[]
   \centering
   \includegraphics[width=0.75\textwidth]{figure/local_support.eps}
   \caption{Supporto locale}
   \label{fig:local_support}
 \end{figure} 
-\begin{figure}[h]
+\begin{figure}[]
   \centering
   \includegraphics[width=0.75\textwidth]{figure/first_property.eps}
   \caption{Dettaglio della prima splines $N_{1, 4}(t)$ per $t = [0.85, 1.15]$}
@@ -263,19 +263,19 @@ tutte le splines della base, mentre in Figura~\ref{fig:first_property} è mostra
 \paragraph{Non negatività} In questo caso la proprietà è facilmente verificabile sfruttando uno qualunque dei plot mostrati in precedenza,
  ad esempio possiamo vedere che in Figura \ref{fig:local_support} nessuna delle $N_{i, r}(t)$ è negativa.
 \paragraph{Partizione dell'unità} BONA
-\begin{figure}[h]
+\begin{figure}[]
   \centering
   \includegraphics[width=0.75\textwidth]{figure/unity_std.eps}
   \caption{Partizione dell'unità con nodi uniformi}
   \label{fig:unity_std}
 \end{figure} 
-\begin{figure}[h]
+\begin{figure}[]
   \centering
   \includegraphics[width=0.75\textwidth]{figure/unity_bernstein.eps}
   \caption{Partizione dell'unità nella base di Bernstein}
   \label{fig:unity_bernstein}
 \end{figure} 
-\begin{figure}[h]
+\begin{figure}[]
   \centering
   \includegraphics[width=0.75\textwidth]{figure/unity_3.eps}
   \caption{Partizione dell'unità con partizione nodale \textit{clamped}}
@@ -317,7 +317,7 @@ stata applicata la trasformazione e la terza per la curva disegnata a partire da
 sui quali è stata applicata la trasformazione. Si può però osservare che nella Figura~\ref{fig:trasformationspline} sono presenti due curve, 
 ciò vuol dire che
 due curve si sono sovrapposte.
-\begin{figure}[h]
+\begin{figure}[]
   \centering
   \includegraphics[width=0.75\textwidth]{figure/transformation_spline.eps}
   \caption{Trasformazione affine su spline}
@@ -327,26 +327,72 @@ due curve si sono sovrapposte.
 
 
 
-\paragraph{Località} Per una curva B-Spline $\mathbf{X}(t^*)$ con $t^* \in [t_r, t_{r+1}]$ è determinata da 
-$k$ punti di controllo $d_{r-k+1}, \dots, d_{r}$. 
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.75\textwidth]{figure/loc_spline.eps}
-  \caption{Proprietà di località}
-  \label{fig:trasformationspline}
-\end{figure} 
-\lstinputlisting[label=code:locspline, firstline=2, language=Matlab, caption = Proprietà di località]{code/b_spline_curve_prop_loc.m}
-TODO: ALLUNGARE IL BRODO
+\paragraph{Località} La proprietà di località ci dice  che il punto di controllo $\mathbf{d_j}$ influenza la curva solamente per $t \in [t_j, t_{j+k}]$. 
+Ad esempio, come mostrato in Figura~\ref{fig:loc_spline1} ed in Codice~\ref{code:locspline}, spostando $\mathbf{d}_7$ la curva varia da $t \in [t_7, t_{11}]$. 
 
+
+\begin{figure}[]
+  \centering
+  \begin{subfigure}[b]{0.3\textwidth}
+    \includegraphics[width=\textwidth]{figure/loc3.eps}
+    \caption{Spostamento di $\mathbf{d_7}$ }
+    \label{fig:loc3}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.3\textwidth}
+      \includegraphics[width=\textwidth]{figure/loc2.eps}
+      \caption{Variazione sulla $x$}
+      \label{fig:loc2}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.3\textwidth}
+      \includegraphics[width=\textwidth]{figure/loc1.eps}
+      \caption{Variazione sulla $y$}
+      \label{fig:loc1}
+  \end{subfigure}
+  \caption{Proprietà di località}\label{fig:loc_spline1}
+\end{figure}
+\lstinputlisting[label=code:locspline, firstline=2, lastline = 33, language=Matlab, caption = Proprietà di località]{code/b_spline_curve_prop_loc.m}
+La proprietà di località ci dice anche che una curva B-Spline $\mathbf{X}(t^*)$ con $t^* \in [t_r, t_{r+1})$ è determinata da 
+$k$ punti di controllo $d_{r-k+1}, \dots, d_{r}$. 
+Utilizzando Codice~\ref{code:locspline1} viene mostrata questa proprietà. Per questo esempio è stato scelto
+$r = 8$, ed una partizione nodale mostrata a Riga 2 del Codice~\ref{code:locspline}.
+I  punti di controllo spostati sono $8$, ovvero i $\mathbf{d}_j \notin [\mathbf{d}_{5}, \mathbf{d}_{8}]$.
+Come mostrato in Figura~\ref{fig:loc_spline1} la curva  $\mathbf{X}(t^*)$  rimane quindi invariata per $t^* \in [t_{8}, t_{9})$. 
+
+\lstinputlisting[label=code:locspline1, firstline=36, language=Matlab, caption = Proprietà di località]{code/b_spline_curve_prop_loc.m}
+
+
+
+\begin{figure}[]
+  \centering
+  \begin{subfigure}[b]{0.3\textwidth}
+    \includegraphics[width=\textwidth]{figure/loc6.eps}
+    \caption{Spostamento di $\mathbf{d}_j \notin [\mathbf{d}_{5}, \mathbf{d}_{8}]$ }
+    \label{fig:loc6}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.3\textwidth}
+      \includegraphics[width=\textwidth]{figure/loc5.eps}
+      \caption{Variazione sulla $x$}
+      \label{fig:loc5}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.3\textwidth}
+      \includegraphics[width=\textwidth]{figure/loc4.eps}
+      \caption{Variazione sulla $y$}
+      \label{fig:loc4}
+  \end{subfigure}
+  \label{fig:loc_spline}
+\end{figure} 
 
 \paragraph{Strong Convex Hull}
 
 TODO: CODICE, FIGURE, SCRIVERE
 
 \paragraph{Variation Diminishing}
-TODO: SCRIVERE
-\lstinputlisting[label=code:locspline, firstline=2, language=Matlab, caption = Proprietà di Variation Diminishing]{code/b_spline_curve_prop_var_dim.m}
-\begin{figure}[h]
+La proprietà di Variation Diminishing dice semplicemente che presa una qualunque retta che interseca
+un numero $b$ di volte il poligono di controllo, questa intersecherà un numero di volte $a \leq b$ la curva \textit{B-Spline} 
+disegnata a partire dal poligono di controllo. 
+Un esempio realizzato con il Codice~\ref{code:vardim} è mostrato in Figura~\ref{fig:intersection}.
+\lstinputlisting[label=code:vardim, firstline=2, language=Matlab, caption = Proprietà di Variation Diminishing]{code/b_spline_curve_prop_var_dim.m}
+\begin{figure}[]
   \centering
   \begin{subfigure}[b]{0.3\textwidth}
     \includegraphics[width=\textwidth]{figure/intersection1.eps}
@@ -372,14 +418,118 @@ TODO: SCRIVERE
 \end{figure}
 
 \subsection{Curve Chiuse}
-TODO: CODICE, FIGURE, SCRIVERE
+Grazie ai nodi ausiliari ciclici è possibile usare la base delle B-Spline per generare
+curve chiuse. In Codice~\ref{code:closed_curve} è possibile vedere un esempio di implementazione di una curva chiusa di 
+ordine $k = 4$.
+Per ottenere una curva con questa proprietà è necessario generare una partizione nodale estesa in questo modo:
+$$\Delta^* = \left[ \underbrace{\frac{-k}{m-1}}_{Inizio} : \underbrace{\frac{1}{m-1}}_{Passo} : \underbrace{\frac{k+m-1}{m-1}}_{Fine} \right]$$
+con $k$ ordine della spline e $m$ numero di vertici di controllo della curva.
+Successivamente è anche necessario estendere il poligono di controllo ripetendo i primi $k-1$ vertici.
+\lstinputlisting[label=code:closed_curve, firstline=2, language=Matlab, caption = Curva chiusa]{code/b_spline_curve.m}
+\begin{figure}[]
+  \centering
+  \includegraphics[width=0.75\textwidth]{figure/closed_curve.eps}
+  \caption{Curva chiusa (in rosso i vertici ripetuti)}
+  \label{fig:closed_curve}
+\end{figure} 
+In Figura~\ref{fig:closed_curve} è possibile vedere il risultato del Codice~\ref{code:closed_curve}, i vertici di controllo rossi sono 
+quelli ripetuti.
+TODO: FARE QUALCOSA CON LA CONTINUITÀ
 
-
-
-\section{Superfici di Bézier}
-TODO: CODICE, FIGURE, SCRIVERE
-
-
+\section{Superfici \textit{Tensor-Product} di Bézier}
+Una superficie \textit{Tensor-Product} di Bézier si definisce a partire dalla base di Bézier e da $(n+1)\cdot(m+1)$ vertici di controllo, i 
+quali a loro volta formano un poligono di controllo. 
+\begin{mydef}
+  Una superficie \textit{Tensor-Product} di Bézier è data da:
+  $$\mathbf{X}(u, v) = \sum_{i = 0}^{n} \sum_{j = 0}^{m} \mathbf{b}_{i, j} B^{n}_{i}(u)B_{j}^{m}(v) $$
+  dove:
+  \begin{itemize}
+    \item $B^{n}_{i}$ e $B^{m}_{j}$ sono i polinomi di Bernstein rispettivamente di 
+    grado $n$ e $m$ e indice $i$ e $j$.
+    \item $\mathbf{b}_{i,j}$ sono gli  $(n+1)\cdot(m+1)$ vertici di controllo.
+  \end{itemize}
+\end{mydef}
+Di seguito, in Codice~\ref{code:bezier_basis} un'implementazione della base
+per le superfici di Bézier realizzata con l'uso della funzione \texttt{spcol}.
+\lstinputlisting[label=code:bezier_basis, firstline=2, language=Matlab, caption = Base delle superfici di Bézier]{code/bezier_surface_basis.m}
+\lstinputlisting[label=code:bezier_surface, firstline=2, lastline = 19, language=Matlab, caption = Disegno di una superficie di Bézier]{code/bezier_surface.m}
+\begin{figure}[]
+  \centering
+  \begin{subfigure}[b]{0.3\textwidth}
+    \includegraphics[width=\textwidth]{figure/bezier_surface_basis33_1.eps}
+    \caption{$k_u$: $3$, $k_v$: $3$}
+    \label{fig:bezier_surface_basis33_1}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.3\textwidth}
+      \includegraphics[width=\textwidth]{figure/bezier_surface_basis55_1.eps}
+      \caption{$k_u$: $5$, $k_v$: $5$}
+      \label{fig:bezier_surface_basis55_1}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.3\textwidth}
+      \includegraphics[width=\textwidth]{figure/bezier_surface_basis35_1.eps}
+      \caption{$k_u$: $3$, $k_v$: $5$}
+      \label{fig:bezier_surface_basis35_1}
+  \end{subfigure}
+  \caption{Base di Bézier}\label{fig:bezier_basis}
+\end{figure}
+\begin{figure}[]
+  \centering
+  \includegraphics[width=0.75\textwidth]{figure/bezier_surface1.eps}
+  \caption{Superficie di Bézier generata da Codice~\ref{code:bezier_surface}}
+  \label{fig:bezier_sup_code}
+\end{figure} 
 \subsection{Proprietà delle superfici di Bézier}
-TODO: CODICE, FIGURE, SCRIVERE
+Come per le curve, le superfici di Bèzier godono di alcune proprietà:
+\begin{itemize}
+  \item Invarianza per trasformazioni affini: applicare una trasformazione affine sui punti di controllo o sulla superfice è indifferente, il risultato sarà uguale.
+
+  \item Convex Hull: DA FARE
+  \item Curve di bordo: le quattro curve di bordo della superficie di Bézier sono date da
+  $$\mathbf{X}(0,v) = \sum_{j=0}^{m} \mathbf{b}_{0,j}B_{j}^{m}(v) \quad \mathbf{X}(1,v) = \sum_{j=0}^{m} \mathbf{b}_{m,j}B_{j}^{m}(v)$$
+  $$\mathbf{X}(u, 0) = \sum_{i=0}^{n} \mathbf{b}_{i,0}B_{i}^{n}(u) \quad \mathbf{X}(u,1) = \sum_{i=0}^{n} \mathbf{b}_{i, m}B_{i}^{n}(u)$$
+\end{itemize}
+  \paragraph{Invarianza per trasformazioni affini}
+  Come detto in precedenza questa proprietà dice che se applicata una trasformazione affine sui punti di controllo o sulla superfice è indifferente. 
+  Questo proprietà risulta molto utile nella situazione in cui si deve applicare una determinata trasformazione ad una superficie. Il modo 
+  più efficiente per realizzare ciò è applicare la trasformazione ai punti di controllo e successivamente ridisegnare la superfice.
+  In Codice~\ref{code:bezier_surf_trans} è possibile vedere l'esempio di un disegno di una superficie e successiva trasformazione,
+  sia sui punti di controllo che sulla superficie stessa.
+  \lstinputlisting[label=code:bezier_surf_trans, firstline=2, lastline = 46, language=Matlab, caption = Base delle superfici di Bézier]{code/bezier_surface.m}
+  In questo caso per mostrare che le due superfici trasformate sono uguali è stata usata la funzione \texttt{isequal}, che restituisce \texttt{1} se e solo se 
+  le due matrici in input sono uguali. Il plot in output del Codice~\ref{code:bezier_surf_trans} è mostrato in Figura~\ref{fig:bezier_surf_trans}.
+  \begin{figure}[]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figure/bezier_surf_trans.eps}
+    \caption{Trasformazione affine su una superficie di Bézier}
+    \label{fig:bezier_surf_trans}
+  \end{figure} 
+  \paragraph{Convex Hull} TODO: CODICE, FIGURE, SCRIVERE
+  \paragraph{Curve di bordo} I bordi di una superfice di Bézier possono essere visti a loro
+  volta come quattro curve di Bézier:
+  $$\mathbf{X}(0,v) = \sum_{j=0}^{m} \mathbf{b}_{0,j}B_{j}^{m}(v) \quad \mathbf{X}(1,v) = \sum_{j=0}^{m} \mathbf{b}_{m,j}B_{j}^{m}(v)$$
+  $$\mathbf{X}(u, 0) = \sum_{i=0}^{n} \mathbf{b}_{i,0}B_{i}^{n}(u) \quad \mathbf{X}(u,1) = \sum_{i=0}^{n} \mathbf{b}_{i, m}B_{i}^{n}(u)$$
+  In Codice~\ref{code:bezier_border_curve} è possibile vedere il calcolo, tramite l'algoritmo di \textit{De Casteljau}, di una delle quattro curve di bordo, 
+  mentre in Figura~\ref{fig:bezier_border_curve} è possibile vedere 
+  il plot dei bordi di una superficie di Bézier.
+\begin{figure}[]
+  \centering
+  \begin{subfigure}[b]{0.3\textwidth}
+    \includegraphics[width=\textwidth]{figure/border_curve.eps}
+    \label{fig:border_curve}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.3\textwidth}
+      \includegraphics[width=\textwidth]{figure/border_curve_no_surf.eps}
+      \label{fig:border_curve_no_surf}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.3\textwidth}
+      \includegraphics[width=\textwidth]{figure/surf_no_bord.eps}
+      \label{fig:surf_no_bord}
+  \end{subfigure}
+  \caption{Curve di bordo}\label{fig:bezier_border_curve}
+\end{figure}
+\lstinputlisting[label=code:bezier_border_curve, firstline=76, lastline = 84, language=Matlab, caption = Base delle superfici di Bézier]{code/bezier_surface.m}
+\subsection{Algoritmo di De Casteljau}
+TODO: FINIRE CODICE, FIGURE, SCRIVERE
+
+
 \end{document}

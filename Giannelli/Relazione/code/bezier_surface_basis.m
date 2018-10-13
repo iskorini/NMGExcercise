@@ -1,4 +1,5 @@
-k_u = 3; k_v = 5;
+clear; close all;
+k_u = 3; k_v = 3;
 knots_u = [zeros(1, k_u), ones(1, k_u)];
 knots_v = [zeros(1, k_v), ones(1, k_v)];
 tab = 0:0.05:1;

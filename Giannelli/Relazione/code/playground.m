@@ -1,14 +1,22 @@
-close all
-n = 4;
-k = 3;
-points = ginput(n)
-x_p = points(:,1);
-y_p = points(:,2);
-plot(x_p, y_p, 'ro')
-hold on
-plot(x_p, y_p, 'r')
-
-knots = 0:1/(n+k-1):1;
-%knots =[0 0.1 0.2 0.25 0.5 1 1 1]
-x = spmak(knots, points.');
-fnplt(x, [knots(k), knots(end-k+1)])
+clear; close all;
+k_u = 3; k_v = 3;
+b_x = [1 2 3; 1 2 4; 1 2 4];
+b_y = [4 6 4; 3 5 2; 3 2 1];
+b_z = [2 2 2; 2 4 2; 2 5 3];
+plot3(b_x, b_y, b_z, 'bo--', 'linewidth', 2); hold on;
+plot3(b_x', b_y', b_z', 'b--', 'linewidth', 2);
+knots_u = [zeros(1, k_u), ones(1, k_u)];
+knots_v = [zeros(1, k_v), ones(1, k_v)];
+tab = 0:0.05:1;
+B_u = spcol(knots_u, k_u, tab);
+B_v = spcol(knots_v, k_v, tab);
+X_x = B_u*b_x*B_v.';
+X_y = B_u*b_y*B_v.';
+X_z = B_u*b_z*B_v.';
+surf(X_x, X_y, X_z, 'FaceAlpha', 0.8); shading flat;
+s.EdgeColor = 'none';
+hold on;
+plot3(X_x(1, 1), X_y(1,1), X_z(1,1), 'k.', 'MarkerSize', 20);
+plot3(X_x(end, end), X_y(end, end), X_z(end, end), 'k.', 'MarkerSize', 20);
+plot3(X_x(end, 1), X_y(end,1), X_z(end,1), 'k.', 'MarkerSize', 20);
+plot3(X_x(1, end), X_y(1,end), X_z(1,end), 'k.', 'MarkerSize', 20);
