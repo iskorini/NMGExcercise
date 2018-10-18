@@ -1,4 +1,4 @@
-clear; close all;
+ clear; close all;
 k_u = 3; k_v = 3;
 b_x = [1 2 3; 1 2 4; 1 2 4];
 b_y = [4 6 4; 3 5 2; 3 2 1];

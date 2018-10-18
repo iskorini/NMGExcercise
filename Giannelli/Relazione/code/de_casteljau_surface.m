@@ -23,7 +23,7 @@ B_v = spcol(knots_v, k_m, tab);
 X_x = B_u*b_x*B_v.';
 X_y = B_u*b_y*B_v.';
 X_z = B_u*b_z*B_v.';
-%surf(X_x, X_y, X_z, 'FaceAlpha', 0.8); shading flat;
+surf(X_x, X_y, X_z, 'FaceAlpha', 0.8); shading flat;
 s.EdgeColor = 'none';
 hold on;
 plot3(X_x(1, 1), X_y(1,1), X_z(1,1), 'k.', 'MarkerSize', 20);
@@ -32,24 +32,16 @@ plot3(X_x(end, 1), X_y(end,1), X_z(end,1), 'k.', 'MarkerSize', 20);
 plot3(X_x(1, end), X_y(1,end), X_z(1,end), 'k.', 'MarkerSize', 20);
 
 %%%%%
-
-
-
+% [x, y, z] = de_casteljau_libro(k_n, k_m, b_x, b_y, b_z, 1, 1);
+% plot3(x, y, z, 'g.', 'linewidth', 2, 'markersize', 20); hold on;
 for u = 0:0.05:1
     for v = 0:0.05:1
-        [x, y, z] = de_casteljau3d(k_n, k_m, b_x, b_y, b_z, u, v);
-        plot3(x, y, z, '.-', 'linewidth', 2); hold on;
+        [x, y, z] = de_casteljau_libro(k_n, k_m, b_x, b_y, b_z, u, v);
+        plot3(x, y, z, '.', 'linewidth', 2, 'markersize', 20); hold on;
     end
 end
-%m = s
-%n = r
-
-
 
 function [Q_x, Q_y, Q_z] = de_casteljau(k, x_p, y_p, z_p, u)
-    Q_x = zeros(k, k);
-    Q_y = zeros(k, k);
-    Q_z = zeros(k, k);
     Q_x(:,1) = x_p;
     Q_y(:,1) = y_p;
     Q_z(:,1) = z_p;
@@ -60,7 +52,35 @@ function [Q_x, Q_y, Q_z] = de_casteljau(k, x_p, y_p, z_p, u)
             Q_z(j,i) = (1-u)*Q_z(j-1, i-1)+u*Q_z(j, i-1);
         end
     end
+    Q_x = Q_x(1,1);
+    Q_y = Q_y(1,1);
+    Q_z = Q_z(1,1);
 end
+
+function [Q_x, Q_y, Q_z] = de_casteljau_libro(k_n, k_m, p_x, p_y, p_z, u, v)
+   if (k_m > k_n) 
+       temp = zeros(3, k_m);
+       for i = 1:k_m
+           [temp(1, i), temp(2, i), temp(3, i)] = ...
+               de_casteljau(k_n, p_x(:, i), p_y(:, i), p_z(:, i), u);
+           plot3(temp(1,i),temp(2, i), temp(3, i), 'g.', 'linewidth', 2, 'markersize', 20);
+       end
+       [Q_x, Q_y, Q_z] = de_casteljau(k_m, temp(1,:), temp(2,:), temp(3,:), v);
+   else
+       temp = zeros(3, k_n);
+       for i = 1:k_n
+           [temp(1, i), temp(2, i), temp(3, i)] = ...
+               de_casteljau(k_m, p_x(:, i), p_y(:, i), p_z(:, i), v);
+       end
+       [Q_x, Q_y, Q_z] = de_casteljau(k_n, temp(1,:), temp(2,:), temp(3,:), u);
+   end
+
+end
+
+
+
+
+
 
 function [Q_x, Q_y, Q_z] = de_casteljau3d(k_n, k_m, p_x, p_y, p_z, u, v)
     Q_x = p_x;
@@ -81,15 +101,19 @@ function [Q_x, Q_y, Q_z] = de_casteljau3d(k_n, k_m, p_x, p_y, p_z, u, v)
             end
         end
     end
+    plot3(Q_x(1, 1), Q_y(1, 1), Q_z(1, 1), 'o', 'linewidth', 2, 'markersize', 10); hold on;
     if k_m > k_n %procedo su r
         for k = (min(k_n, k_m)+1):k_m
-            for j = 1:(min(k_n, k_m)-k+1)
-                for i = j:min(k_n, k_m)-k+1
-                    Q_x(i, j) = [(1-u) u] * [Q_x(i, j), Q_x(i, j+1)]';
-                    Q_y(i, j) = [(1-u) u] * [Q_y(i, j), Q_y(i, j+1)]';
-                    Q_z(i, j) = [(1-u) u] * [Q_z(i, j), Q_z(i, j+1)]';
-                end
-            end
+            [Q_x(end,:),Q_y(end,:),Q_z(end,:)] = de_casteljau(k_n, ...
+                p_x(:,k), p_y(:,k), p_z(:,k),u);
+            plot3(Q_x(1, 1), Q_y(1, 1), Q_z(1, 1), 'o', 'linewidth', 2, 'markersize', 10); hold on;
+%             for j = 1:(min(k_n, k_m)-k+1)
+%                 for i = j:min(k_n, k_m)-k+1
+%                     Q_x(i, j) = [(1-u) u] * [Q_x(i, j), Q_x(i, j+1)]';
+%                     Q_y(i, j) = [(1-u) u] * [Q_y(i, j), Q_y(i, j+1)]';
+%                     Q_z(i, j) = [(1-u) u] * [Q_z(i, j), Q_z(i, j+1)]';
+%                 end
+%             end
         end
     end            
     Q_x = Q_x(1, 1);

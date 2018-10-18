@@ -1,4 +1,4 @@
-\documentclass[a4paper, 10pt]{article}
+\documentclass[a4paper, 12pt]{article}
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{amsfonts}
@@ -15,6 +15,7 @@
 \usepackage{tikz}
 \usepackage{subcaption}
 \usepackage[object=vectorian]{pgfornament}
+\usepackage{hyperref}
 \usetikzlibrary{calc}
 
 \newcommand{\sectionline}[2]{%
@@ -88,6 +89,11 @@
 \include{titolo/titlePage}
 
 \tableofcontents
+
+\listoffigures
+ 
+\lstlistoflistings
+
 \newpage
 %\vspace{30mm}
 
@@ -144,29 +150,28 @@ Dato un vettore esteso dei nodi
 $$ \mathbf{t} =  \left\{ \underbrace{t_{0}, \dots, t_{k-2}}_{k-1}, \underbrace{t_{k-1}, \dots, t_{n+1}}_{\tau_0, \tau_1, \dots, \tau_L}, \underbrace{t_{n+2}, \dots, t_{n+k}}_{k-1} \right\} $$
 con
 $$\mathbf{t_0} \leq t_1 \leq \dots t_{k+1} < t_k \dots < t_{n+1} \leq t_{n+2} \leq \dots \leq t_{n+k}$$
-possiamo definire la base delle B-Spline su nodi semplici tramite la relazione ricorrente di \textit{Cox - Boor}.
+possiamo definire la base delle \textit{B-Spline} su nodi semplici tramite la relazione ricorrente di \textit{Cox - De Boor}.
 \begin{mydef}
-  Le B-Spline di ordine $1$, oppure grado $0$ sono definite come:
+  Le \textit{B-Spline} di ordine $1$, oppure grado $0$ sono definite come:
 $$N_{i, 1}(t) = \begin{cases} 1, & \text{se } t\in[t_i, t_{i+1}] i = 0, \dots, n+k-1 \\ 0, & \text{altrimenti} \end{cases}$$
-  Altrimenti le B-Spline di ordine $r \leq k$ sono definite ricorsivamente, per $r > 1$, come:
+  Altrimenti le \textit{B-Spline} di ordine $r \leq k$ sono definite ricorsivamente, per $r > 1$, come:
   $$N_{i, r}(t) = \omega_{i,r}(t)N_{i, r-1}(t) + [1-\omega_{i+1, r}(t)]N_{i+1, r-1}$$
   dove
 $$\omega_{i,r}(t) = \begin{cases} \frac{t-t_i}{t_{i+r-1}-t_i}, & \text{se } t<t_{i+r-1} \\ 0, & \text{altrimenti} \end{cases}$$
 \end{mydef}
-Le B-Spline possono anche essere definite su una partizione nodale la cui molteplicità $m_i$ di un generico nodo $\tau_i$ è più alta di $1$,
+Le \textit{B-Spline} possono anche essere definite su una partizione nodale la cui molteplicità $m_i$ di un generico nodo $\tau_i$ è più alta di $1$,
 quindi su nodi multipli. In questo caso il vettore esteso dei nodi diventa:
 $$ \mathbf{t} =  \left\{ \underbrace{t_{0}, \dots, t_{k-2}}_{k-1}, \underbrace{t_{k-1}, \dots, t_{n+1}}_{\tau_0, \tau_1, \dots, \tau_1 \dots, \tau_L}, \underbrace{t_{n+2}, \dots, t_{n+k}}_{k-1} \right\} $$
 con $\tau_i$ ripetuto a seconda della sua molteplicità $m_i$ con $i = 1, \dots, L-1$ in $\mathbf{t}$, e
 $$\mathbf{t_0} \leq t_1 \leq \dots t_{k+1} \leq  t_k \dots \leq  t_{n+1} \leq t_{n+2} \leq \dots \leq t_{n+k}$$
-La definizione della base delle B-Spline di \textit{Cox - De Boor} non cambia, ma bisogna stare attenti in quanto 
+La definizione della base delle \textit{B-Spline} di \textit{Cox - De Boor} non cambia, ma bisogna stare attenti in quanto 
 $\omega_{i,r}(t)$ può diventare nullo per qualche valore $r$  a causa dei nodi multipli.
 In Codice \ref{code:functioncoxdeboor} sono mostrate le due funzioni che calcolano le basi di \textit{Cox - De Boor}, realizzate senza l'utilizzo delle funzioni del 
 \textit{Curve Fitting Toolbox}.
 \lstinputlisting[label=code:functioncoxdeboor, firstline=17, language=Matlab, caption = Calcolo delle basi di Cox De Boor]{code/cox_de_boor_basis.m}
-La funzione \texttt{calc\_omega} di Codice~\ref{code:functioncoxdeboor} è di facile comprensione. Dati in input
+La funzione \texttt{calc\_omega} di Codice~\ref{code:functioncoxdeboor} si può spiegare in questo modo. Dati in input
 l'indice $i$, l'ordine $r$, il punto in cui si vuole calcolare la spline $t\_star$ ed il vettore esteso dei nodi $\mathbf{t}$ si occupa di calcolare i valori $\omega_{i, r}(t)$.
-%TODO: CORREGGERE PARENTESI TONDE IN TEXTTT
-Il controllo iniziale \texttt{t\( i \) == t\( i+r-1 \)} serve a gestire il caso di nodi multipli. In questa particolare condizione possiamo trovarci a gestire casi in cui il denominatore di $\frac{t - t_i}{t_{i+1-r}-t_i}$ è uguale a $0$; quindi
+Il controllo iniziale \texttt{t(i) == t(i+r-1)} serve a gestire il caso di nodi multipli. In questa particolare condizione possiamo trovarci a gestire casi in cui il denominatore di $\frac{t - t_i}{t_{i+1-r}-t_i}$ è uguale a $0$; quindi
 $\omega_{i,r}(t)$ dev'essere posto a $0$. 
 La seconda funzione in Codice~\ref{code:functioncoxdeboor} è \texttt{de\_boor\_basis} che effettua il calcolo delle basi delle B-Spline. 
 La condizione booleana a riga 16, 17 e 18 serve a verificare che, nel caso 
@@ -183,7 +188,7 @@ funzioni di base visualizzate in Figura~\ref{fig:first_basis}.
   \label{fig:first_basis}
 \end{figure} 
 
-Cambiando il vettore esteso dei nodi $\mathbf{t}$ otteniamo basi per le B-Spline con regolarità diversa.
+Cambiando il vettore esteso dei nodi $\mathbf{t}$ otteniamo basi per le \textit{B-Spline} con regolarità diversa.
 In Figura~\ref{fig:animals} viene mostrato cosa succede tenendo fissato il numero di nodi e l'ordine e aumentato la molteplicità del nodo $4$.
 
 \begin{figure}[]
@@ -216,10 +221,10 @@ In Figura~\ref{fig:animals} viene mostrato cosa succede tenendo fissato il numer
   \caption{Base con nodi multipli di ordine 6}\label{fig:animals}
 \end{figure}
 
-Un caso particolare della base delle B-Spline sono i polinomi di Bernstein. Questi ultimi si ottengono quando, 
+Un caso particolare della base delle \textit{B-Spline} sono i polinomi di \textit{Bernstein}. Questi ultimi si ottengono quando, 
 dato $[a, b] = [\tau_0, \tau_L]$, la partizione nodale estesa è formata solamente da $a$ ripetuto $k$ volte
 e $b$ ripetuto altrettante $k$ volte. In Figura~\ref{fig:bernstein} è mostrato un esempio di base ottenuta con 
-i polinomi di Bernstein di grado $5$.
+i polinomi di \textit{Besrnstein} di grado $5$.
 
 \begin{figure}[]
   \centering
@@ -229,7 +234,7 @@ i polinomi di Bernstein di grado $5$.
 \end{figure} 
 
 \subsection{Proprietà della base delle B-Spline}
-La base delle B-Spline gode di diverse proprietà:
+La base delle \textit{B-Spline} gode di diverse proprietà:
 \begin{enumerate}
   \item Supporto locale: $N_{i, r}(t) = 0 \text{ se } t \notin [t_i, t_{i+r}]$
   \item Non negatività: $N_{i, r}(t) \geq 0\ \forall \ t \ \in \mathbb{R}$
@@ -237,7 +242,7 @@ La base delle B-Spline gode di diverse proprietà:
 \end{enumerate}
 \paragraph{Supporto locale}
 Questa proprietà ci dice che la spline $N_{i, r}(t)$ è diversa da zero solamente nell'intervallo di nodi che va 
-da $t_i$ a $t_{i+r}$. Prendiamo ad esempio le B-Spline di ordine $k = 4$ e 
+da $t_i$ a $t_{i+r}$. Prendiamo ad esempio le \textit{B-Spline} di ordine $k = 4$ e 
 con $\mathbf{t} = [0, 0, 0, 1, 1, 2, 3, 3, 3]$. Le splines saranno le seguenti:
 \begin{itemize}
   \item $N_{1, 4}(t)\neq 0\ t \in [t_1 = 0, t_5 = 1]$
@@ -260,40 +265,53 @@ tutte le splines della base, mentre in Figura~\ref{fig:first_property} è mostra
   \caption{Dettaglio della prima splines $N_{1, 4}(t)$ per $t = [0.85, 1.15]$}
   \label{fig:first_property}
 \end{figure} 
-\paragraph{Non negatività} In questo caso la proprietà è facilmente verificabile sfruttando uno qualunque dei plot mostrati in precedenza,
+\paragraph{Non negatività} In questo caso la proprietà è verificabile sfruttando uno qualunque dei plot mostrati in precedenza,
  ad esempio possiamo vedere che in Figura \ref{fig:local_support} nessuna delle $N_{i, r}(t)$ è negativa.
-\paragraph{Partizione dell'unità} BONA
+\paragraph{Partizione dell'unità} Questa proprietà ci dice che 
+la somma delle funzioni di base delle \textit{B-Spline} definite sulla partizione nodale estesa $\mathbf{t}$ è uguale a 1, se si considerano nell'intervallo 
+$[\tau_0, \tau_L]$.
+Un esempio è mostrato in Figura~\ref{fig:unity_partition}.
+
+
+
+
+
+
 \begin{figure}[]
   \centering
-  \includegraphics[width=0.75\textwidth]{figure/unity_std.eps}
-  \caption{Partizione dell'unità con nodi uniformi}
-  \label{fig:unity_std}
-\end{figure} 
-\begin{figure}[]
-  \centering
-  \includegraphics[width=0.75\textwidth]{figure/unity_bernstein.eps}
-  \caption{Partizione dell'unità nella base di Bernstein}
-  \label{fig:unity_bernstein}
-\end{figure} 
-\begin{figure}[]
-  \centering
-  \includegraphics[width=0.75\textwidth]{figure/unity_3.eps}
-  \caption{Partizione dell'unità con partizione nodale \textit{clamped}}
-  \label{fig:unity_clamped}
-\end{figure} 
+  \begin{subfigure}[b]{0.45\textwidth}
+    \includegraphics[width=0.75\textwidth]{figure/unity_std.eps}
+    \caption{Nodi uniformi}
+    \label{fig:unity_std}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.45\textwidth}
+    \includegraphics[width=0.75\textwidth]{figure/unity_3.eps}
+    \caption{Nodi \textit{clamped}}
+    \label{fig:unity_clamped}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.5\textwidth}
+    \includegraphics[width=0.75\textwidth]{figure/unity_bernstein.eps}
+    \caption{Base di Bernstein}
+    \label{fig:unity_bernstein}
+  \end{subfigure}
+  \caption{Partizione dell'unità}\label{fig:unity_partition}
+\end{figure}
+
+
 
 
 \section{Curve B-Spline}
-A partire dalla base delle B-Spline è possibile realizzare delle curve. Dati $n+1$ punti 
+A partire dalla base delle \textit{B-Spline} è possibile realizzare delle curve. Dati $n+1$ punti 
 di controllo la curva è definita come 
 $$\mathbf{X}(t) := \sum_{i=0}^{n} \mathbf{d_i} N_{i, k}(t)$$
 
 \subsection{Proprietà delle curve B-Spline}
-Le curve B-Spline godono di diverse proprietà:
+Le curve \textit{B-Spline} godono di diverse proprietà:
 \begin{enumerate}
-  \item Invarianza per trasformazioni affini: la proprietà della base delle B-Spline di essere 
-  una partizione dell'unità garantisce che le curve B-Spline siano invarianti per trasformazioni affini, questo 
-  vuol dire che applicare la trasformazione affine sulla curva, o sui punti di controllo è indifferente in quanto il risultato non cambia.
+  \item Invarianza per trasformazioni affini: la proprietà della base delle \textit{B-Spline} di essere 
+  una partizione dell'unità garantisce che le curve \textit{B-Spline} siano invarianti per trasformazioni affini. Questo 
+  vuol dire che l'applicazione della trasformazione affine sulla curva, o sui punti di controllo, è indifferente in
+  quanto il risultato non cambia.
   \item Località: un segmento di curva è influenzato solamente da $k$ punti di controllo.
   \item Strong Convex Hull: ogni punto sulla curva appartiene all'inviluppo convesso di $k$ punti di controllo consecutivi, con $k$ ordine 
   delle funzioni spline.
@@ -304,19 +322,18 @@ Le curve B-Spline godono di diverse proprietà:
 
 
 \paragraph{Invarianza per trasformazioni affini} In Codice~\ref{code:trasnformationspline} è 
-presente il codice con cui è stata applicata una trasformazione
+presente l'implementazione con cui è stata applicata una trasformazione
 prima ai punti di controllo e poi alla curva. Come si può vedere dal 
 Codice~\ref{code:trasnformationspline} la 
 trasformazione applicata è stata una rotazione di $180$ gradi
-ed uno spostamento di $1$ su entrambi gli assi. Per generare la base con cui poi è 
-stata disegnata la curva è stata usata la funzione \texttt{spcol} del \textit{Curve Fitting Toolbox}.
+ed uno spostamento di $1$ su entrambi gli assi. Per generare la base con cui viene disegnata la curva 
+è stata usata la funzione \texttt{spcol} del \textit{Curve Fitting Toolbox}.
 Un modo \textit{Naïve} con cui ci si può accertare della veridicità di questa proprietà è 
-guardando il Codice~\ref{code:trasnformationspline} e la Figura~\ref{fig:trasformationspline}; nel codice sono presenti 
+guardando il Codice~\ref{code:trasnformationspline} e la Figura~\ref{fig:trasformationspline}. Nel codice sono presenti 
 tre chiamate a funzione \texttt{plot}: la prima per la curva originale, la seconda per la curva sulla quale è
 stata applicata la trasformazione e la terza per la curva disegnata a partire dai punti di controllo
-sui quali è stata applicata la trasformazione. Si può però osservare che nella Figura~\ref{fig:trasformationspline} sono presenti due curve, 
-ciò vuol dire che
-due curve si sono sovrapposte.
+sui quali è stata applicata la trasformazione. È possibile osservare che nella Figura~\ref{fig:trasformationspline} sono presenti due curve. 
+Questo vuol dire che due curve si sono sovrapposte.
 \begin{figure}[]
   \centering
   \includegraphics[width=0.75\textwidth]{figure/transformation_spline.eps}
@@ -351,7 +368,7 @@ Ad esempio, come mostrato in Figura~\ref{fig:loc_spline1} ed in Codice~\ref{code
   \caption{Proprietà di località}\label{fig:loc_spline1}
 \end{figure}
 \lstinputlisting[label=code:locspline, firstline=2, lastline = 33, language=Matlab, caption = Proprietà di località]{code/b_spline_curve_prop_loc.m}
-La proprietà di località ci dice anche che una curva B-Spline $\mathbf{X}(t^*)$ con $t^* \in [t_r, t_{r+1})$ è determinata da 
+La proprietà di località ci dice anche che una curva \textit{B-Spline} $\mathbf{X}(t^*)$ con $t^* \in [t_r, t_{r+1})$ è determinata da 
 $k$ punti di controllo $d_{r-k+1}, \dots, d_{r}$. 
 Utilizzando Codice~\ref{code:locspline1} viene mostrata questa proprietà. Per questo esempio è stato scelto
 $r = 8$, ed una partizione nodale mostrata a Riga 2 del Codice~\ref{code:locspline}.
@@ -382,12 +399,10 @@ Come mostrato in Figura~\ref{fig:loc_spline1} la curva  $\mathbf{X}(t^*)$  riman
   \label{fig:loc_spline}
 \end{figure} 
 
-\paragraph{Strong Convex Hull}
 
-TODO: CODICE, FIGURE, SCRIVERE
 
 \paragraph{Variation Diminishing}
-La proprietà di Variation Diminishing dice semplicemente che presa una qualunque retta che interseca
+La proprietà di Variation Diminishing dice che presa una qualunque retta che interseca
 un numero $b$ di volte il poligono di controllo, questa intersecherà un numero di volte $a \leq b$ la curva \textit{B-Spline} 
 disegnata a partire dal poligono di controllo. 
 Un esempio realizzato con il Codice~\ref{code:vardim} è mostrato in Figura~\ref{fig:intersection}.
@@ -416,9 +431,67 @@ Un esempio realizzato con il Codice~\ref{code:vardim} è mostrato in Figura~\ref
   \end{subfigure}
   \caption{Proprietà di Variation Diminishing}\label{fig:intersection}
 \end{figure}
+\subsection{Continuità}
+Consideriamo due curve di \textit{Bézier} (che ricordiamo essere un caso particolare di curve \textit{B-Spline}) $C_1(u)$ e $C_2(v)$, definite rispettivamente su $u \in [u_a, u_b]$ e $v \in [v_a, v_b]$ e sui
+vertici di controllo $\{\mathbf{V}_{1,1},\dots, \mathbf{V}_{n,1}\}$ e $\{\mathbf{V}_{1,2},\dots, \mathbf{V}_{m,2}\}$. 
+Consideriamo ora il caso in cui queste due curve si uniscono, usando come punto di raccordo l'ultimo vertice della prima curva
+ed il primo vertice della seconda curva. Possono verificarsi diversi casi descritti di seguito. 
+Per generare le Figure~\ref{fig:discontinuity}, ~\ref{fig:continuityc0},  ~\ref{fig:continuityc1} e ~\ref{fig:continuityg1}, mostrate in seguito, è stato usato il Codice~\ref{code:continuity}.
+\lstinputlisting[label=code:continuity, firstline=2, language=Matlab, caption = Continuità sulle curve]{code/b_spline_curve_prop_var_dim.m}
 
+\paragraph{Discontinuità}
+Il primo caso è la discontinuità chiamata, con abuso di notazione, $C^{-1}$. Questa si verifica
+quando l'ultimo vertice della prima curva è diverso dal primo vertice della seconda curva, ovvero:
+$$V_{n,1} \neq V_{0, 2}$$
+Un esempio è possibile vederlo in Figura~\ref{fig:discontinuity}.
+\begin{figure}[]
+  \centering
+  \includegraphics[width=0.75\textwidth]{figure/discontinuity.eps}
+  \caption{Curve discontinue}
+  \label{fig:discontinuity}
+\end{figure} 
+
+\paragraph{Continuità $C^0$}
+Date due curve la condizione per far sì che ci sia continuità di tipo $C^0$ è che 
+l'ultimo vertice della prima curva coincida con il primo vertice della seconda curva, ovvero che:
+$$\mathbf{V}_{n,1} = \mathbf{V}_{1, 2}$$
+Un esempio di tale continuità è presente in Figura~\ref{fig:continuityc0}
+\begin{figure}[]
+  \centering
+  \includegraphics[width=0.75\textwidth]{figure/continuity_c0.eps}
+  \caption{Continuità $C^0$}
+  \label{fig:continuityc0}
+\end{figure} 
+
+\paragraph{Continuità $C^1$}
+La continuità $C^1$ si impone con la seguente condizione sulla derivata prima:
+$$C'_1(\mathbf{V}_{n, 1}) = C'_2(\mathbf{V}_{1, 2})$$
+Per far sì che questa condizione sia verificata è sufficiente posizionare il 
+penultimo vertice della prima curva, il secondo della seconda curva ed il punto di giunzione per la continuità $C^0$ sulla stessa retta.
+Analiticamente ciò vuol dire imporre la seguente ugualianza:
+$$\mathbf{V}_{2,2} = 2\mathbf{V}_{n, 1} - \mathbf{V}_{n-1, 1}$$
+\begin{figure}[]
+  \centering
+  \includegraphics[width=0.75\textwidth]{figure/continuity_c1.eps}
+  \caption{Continuità $C^1$}
+  \label{fig:continuityc1}
+\end{figure} 
+Un esempio è mostrato in Figura~\ref{fig:continuityc1}.
+
+\paragraph{Continuità $G^1$}
+La continuità $G^1$ è un particolare tipo di continuità chiamata anche \textit{Continuità geometrica}. Questo tipo 
+di continuità non dipende dalla parametrizzazione della curva. La condizione per far sì che sia presente questo 
+particolare tipo di continuità è la seguente:
+$$C'_2(v_0) = \omega C'_1(u_1)$$ con $\omega$ a piacere.
+Un esempio di continuità $G^1$ è mostrato in Figura~\ref{fig:continuityg1}.
+\begin{figure}[]
+  \centering
+  \includegraphics[width=0.75\textwidth]{figure/continuity_g1.eps}
+  \caption{Continuità $G^1$}
+  \label{fig:continuityg1}
+\end{figure} 
 \subsection{Curve Chiuse}
-Grazie ai nodi ausiliari ciclici è possibile usare la base delle B-Spline per generare
+Grazie ai nodi ausiliari ciclici è possibile usare la base delle \textit{B-Spline} per generare
 curve chiuse. In Codice~\ref{code:closed_curve} è possibile vedere un esempio di implementazione di una curva chiusa di 
 ordine $k = 4$.
 Per ottenere una curva con questa proprietà è necessario generare una partizione nodale estesa in questo modo:
@@ -434,12 +507,66 @@ Successivamente è anche necessario estendere il poligono di controllo ripetendo
 \end{figure} 
 In Figura~\ref{fig:closed_curve} è possibile vedere il risultato del Codice~\ref{code:closed_curve}, i vertici di controllo rossi sono 
 quelli ripetuti.
-TODO: FARE QUALCOSA CON LA CONTINUITÀ
 
-\section{Superfici \textit{Tensor-Product} di Bézier}
+\subsection{Interpolazione}
+
+L'interpolazione consiste nel far passare la curva per un determinato insieme di punti $\mathbf{p}_1, \dots, \mathbf{p}_n$.
+Dopo aver scelto adeguatamente la partizione nodale è necessario generare la base per le \textit{B-Spline}. Successivamente 
+bisogna trovare i punti di controllo per generare la curva interpolante. 
+Per trovare i punti di controllo della curva interpolante è necessario risolvere il seguente sistema lineare:
+$$N \cdot Coefs = P$$
+con $N$ base delle \textit{B-Spline} e $P$ punti di interpolazione. Nella risoluzione di tale sistema bisogna stare 
+attenti a produrre una matrice $N$ \textit{non singolare}.
+Il Codice~\ref{code:interpolation} genera due splines interpolanti mostrate in Figura~\ref{fig:interpolation}. I punti in rosso sono i   
+$\mathbf{p}_1, \dots, \mathbf{p}_n$ di interpolazione, mentre 
+rispettivamente le linee tratteggiate in blu e nero sono i punti di controllo della prima e della seconda curva interpolante.
+
+\lstinputlisting[label=code:interpolation, firstline=2, lastline = 19, language=Matlab, caption = Interpolazione]{code/interpolation.m}
+
+
+\begin{figure}[]
+  \centering
+  \includegraphics[width=0.75\textwidth]{figure/interpolation.eps}
+  \caption{Interpolazione di punti}
+  \label{fig:interpolation}
+\end{figure} 
+
+
+\section{Superfici}
+\subsection{Superfici parametriche}
+Una superficie può essere rappresentata attraverso la forma parametrica:
+$$\mathbf{X}(u, v) = \begin{pmatrix}
+  x(u, v) \\
+  y(u, v) \\
+  z(u, v)
+\end{pmatrix}$$
+con $u, v \in [a, b] \subset \mathbb{R}^2$.
+La seguente superfice parametrica 
+$$\mathbf{X}(u, v) = \begin{pmatrix}
+  x(u, v) = (2 + cos(v)) \cdot cos(u)\\
+  y(u, v) = (2 + cos(v)) \cdot sin(u)\\
+  z(u, v) = sin(v)
+\end{pmatrix}$$
+è stata implementata in Codice~\ref{code:parametric_surface}. Il plot è visualizzato in Figura~\ref{fig:parametric_surface}.
+\lstinputlisting[label=code:parametric_surface, firstline=2, lastline = 19, language=Matlab, caption = Disegno di una superficie parametrica]{code/parametric_surface.m}
+\begin{figure}[]
+  \centering
+  \includegraphics[width=0.75\textwidth]{figure/parametric_surface.eps}
+  \caption{Supercifie parametrica}
+  \label{fig:parametric_surface}
+\end{figure} 
+\subsection{Superfici \textit{Tensor-Product} di Bézier}
+\begin{mydef}
+  Dati due spazi di funzioni monovariate:
+  $$S_1 = < B^{A}_{0}(u), \dots, B^{A}_{n}(u) > \qquad S_2 = < B^{B}_{0}(v), \dots, B^{B}_{m}(v) >$$
+  con $u \in [a_A, b_A]$ e $v \in [a_B, b_B]$ si definisce uno spazio \textit{Tensor-Product} di funzioni bivariate come:
+  $$S_1 \times S_2 = \left\{ f : \mathbb{R} \rightarrow \mathbb{R}: f(u, v) = \sum_{i = 0}^{n}\sum_{j = 0}^{m} c_{i,j}B^A_i(u)B^B_j(v) \right\}$$
+  con $c_{i,j} \in \mathbb{R}$.
+\end{mydef}
 Una superficie \textit{Tensor-Product} di Bézier si definisce a partire dalla base di Bézier e da $(n+1)\cdot(m+1)$ vertici di controllo, i 
 quali a loro volta formano un poligono di controllo. 
 \begin{mydef}
+  \label{def:tensor-prod-bez}
   Una superficie \textit{Tensor-Product} di Bézier è data da:
   $$\mathbf{X}(u, v) = \sum_{i = 0}^{n} \sum_{j = 0}^{m} \mathbf{b}_{i, j} B^{n}_{i}(u)B_{j}^{m}(v) $$
   dove:
@@ -478,23 +605,21 @@ per le superfici di Bézier realizzata con l'uso della funzione \texttt{spcol}.
   \caption{Superficie di Bézier generata da Codice~\ref{code:bezier_surface}}
   \label{fig:bezier_sup_code}
 \end{figure} 
-\subsection{Proprietà delle superfici di Bézier}
+\subsubsection{Proprietà delle superfici di Bézier}
 Come per le curve, le superfici di Bèzier godono di alcune proprietà:
 \begin{itemize}
   \item Invarianza per trasformazioni affini: applicare una trasformazione affine sui punti di controllo o sulla superfice è indifferente, il risultato sarà uguale.
-
-  \item Convex Hull: DA FARE
   \item Curve di bordo: le quattro curve di bordo della superficie di Bézier sono date da
   $$\mathbf{X}(0,v) = \sum_{j=0}^{m} \mathbf{b}_{0,j}B_{j}^{m}(v) \quad \mathbf{X}(1,v) = \sum_{j=0}^{m} \mathbf{b}_{m,j}B_{j}^{m}(v)$$
   $$\mathbf{X}(u, 0) = \sum_{i=0}^{n} \mathbf{b}_{i,0}B_{i}^{n}(u) \quad \mathbf{X}(u,1) = \sum_{i=0}^{n} \mathbf{b}_{i, m}B_{i}^{n}(u)$$
 \end{itemize}
   \paragraph{Invarianza per trasformazioni affini}
-  Come detto in precedenza questa proprietà dice che se applicata una trasformazione affine sui punti di controllo o sulla superfice è indifferente. 
-  Questo proprietà risulta molto utile nella situazione in cui si deve applicare una determinata trasformazione ad una superficie. Il modo 
+  Come detto in precedenza questa proprietà dice che applicare una trasformazione affine sui punti di controllo o sulla superfice è indifferente. 
+  Questa proprietà risulta molto utile nella situazione in cui si deve applicare una determinata trasformazione ad una superficie. Il modo 
   più efficiente per realizzare ciò è applicare la trasformazione ai punti di controllo e successivamente ridisegnare la superfice.
   In Codice~\ref{code:bezier_surf_trans} è possibile vedere l'esempio di un disegno di una superficie e successiva trasformazione,
   sia sui punti di controllo che sulla superficie stessa.
-  \lstinputlisting[label=code:bezier_surf_trans, firstline=2, lastline = 46, language=Matlab, caption = Base delle superfici di Bézier]{code/bezier_surface.m}
+  \lstinputlisting[label=code:bezier_surf_trans, firstline=2, lastline = 46, language=Matlab, caption = Trasformazione affine]{code/bezier_surface.m}
   In questo caso per mostrare che le due superfici trasformate sono uguali è stata usata la funzione \texttt{isequal}, che restituisce \texttt{1} se e solo se 
   le due matrici in input sono uguali. Il plot in output del Codice~\ref{code:bezier_surf_trans} è mostrato in Figura~\ref{fig:bezier_surf_trans}.
   \begin{figure}[]
@@ -503,7 +628,6 @@ Come per le curve, le superfici di Bèzier godono di alcune proprietà:
     \caption{Trasformazione affine su una superficie di Bézier}
     \label{fig:bezier_surf_trans}
   \end{figure} 
-  \paragraph{Convex Hull} TODO: CODICE, FIGURE, SCRIVERE
   \paragraph{Curve di bordo} I bordi di una superfice di Bézier possono essere visti a loro
   volta come quattro curve di Bézier:
   $$\mathbf{X}(0,v) = \sum_{j=0}^{m} \mathbf{b}_{0,j}B_{j}^{m}(v) \quad \mathbf{X}(1,v) = \sum_{j=0}^{m} \mathbf{b}_{m,j}B_{j}^{m}(v)$$
@@ -527,9 +651,51 @@ Come per le curve, le superfici di Bèzier godono di alcune proprietà:
   \end{subfigure}
   \caption{Curve di bordo}\label{fig:bezier_border_curve}
 \end{figure}
-\lstinputlisting[label=code:bezier_border_curve, firstline=76, lastline = 84, language=Matlab, caption = Base delle superfici di Bézier]{code/bezier_surface.m}
-\subsection{Algoritmo di De Casteljau}
-TODO: FINIRE CODICE, FIGURE, SCRIVERE
-
-
+\lstinputlisting[label=code:bezier_border_curve, firstline=76, lastline = 84, language=Matlab, caption = Curve di bordo]{code/bezier_surface.m}
+\subsubsection{Algoritmo di De Casteljau}
+Una superficie di Bézier, come definita in Definizione~\ref{def:tensor-prod-bez}, è possibile 
+ottenerla tramite l'algoritmo di \textit{De Casteljau} eseguendo la seguente interpolazione bilineare.
+$$\mathbf{b}^0_{i,j} = b_{i, j} \quad i = 0, \dots, n \quad j = 0, \dots, m$$
+$$\mathbf{b}^{r,s}_{i,j}(u, v) = \begin{pmatrix} (1-u) & u\end{pmatrix}  \begin{pmatrix} \mathbf{b}^{r-1,s-1}_{i,j} & \mathbf{b}^{r-1,s-1}_{i,j+1} \\ \mathbf{b}^{r-1,s-1}_{i+1,j} & \mathbf{b}^{r-1,s-1}_{i+1,j+1}\end{pmatrix}  \begin{pmatrix}
+  (1-v) \\ v
+\end{pmatrix} $$
+Eseguendo questa operazione sopra descritta si procede contemporaneamente in entrambe le direzioni $r$ ed $s$, 
+quindi può essere eseguita un numero di volte massimo pari a
+$\gamma = min(n, m)$, dopodiché è necessario procedere in una sola direzione eseguendo le iterazioni rimanenti.
+L'approccio scelto per implementare l'algoritmo di 
+\textit{De Casteljau} è descritto in \href{https://www.springer.com/la/book/9783642973857}{The NURBS Book}. 
+L'algoritmo, implementato in Codice~\ref{code:disperazione}, \textit{non} procede in entrambe
+le direzioni contemporaneamente, bensì prima in una e poi nell'altra. Acciocché questo possa essere reso possibile, 
+è necessario dapprima implementare l'algoritmo per il disegno di curve per poi, successivamente, 
+sfruttarlo per disegnare la superficie.
+\lstinputlisting[label=code:disperazione, firstline=2, language=Matlab, caption = Algoritmo di De Casteljau]{code/disperazione.m}
+Per accetarsi del corretto funzionamento dell'algoritmo implementato in Codice~\ref{code:disperazione}
+sono state provate tutte le possibili casistiche riguardanti i gradi, ovvero:
+\begin{itemize}
+  \item $m > n$
+  \item $n > m$
+  \item $m = n$
+\end{itemize}
+In Figura~\ref{fig:surface_casteljau} è possibile vedere le tre diverse casistiche per i gradi delle superfici. I \textit{pallini} in rosso
+sono i punti calcolati con l'algoritmo di \textit{De Casteljau}, e come \textbf{spero} sia possibile evidenziare si sovrappongono 
+alla superfice disegnata in maniera convenzionale.
+\begin{figure}[]
+  \centering
+  \begin{subfigure}[b]{0.6\textwidth}
+    \includegraphics[width=\textwidth]{figure/surface_casteljau_m3n3.eps}
+    \label{fig:surface_casteljau_m3n3}
+    \caption{$m = 3, n = 3$}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.6\textwidth}
+      \includegraphics[width=\textwidth]{figure/surface_casteljau_m3n4.eps}
+      \label{fig:surface_casteljau_m3n4}
+      \caption{$m = 3, n = 4$}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.6\textwidth}
+      \includegraphics[width=\textwidth]{figure/surface_casteljau_m5n3.eps}
+      \label{fig:surface_casteljau_m5n3}
+      \caption{$m = 5, n = 3$}
+  \end{subfigure}
+  \caption{Superfici disegnate con \textit{De Casteljau}}\label{fig:surface_casteljau}
+\end{figure}
 \end{document}
