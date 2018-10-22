@@ -507,6 +507,25 @@ Successivamente è anche necessario estendere il poligono di controllo ripetendo
 \end{figure} 
 In Figura~\ref{fig:closed_curve} è possibile vedere il risultato del Codice~\ref{code:closed_curve}, i vertici di controllo rossi sono 
 quelli ripetuti.
+La curva chiusa generata da Codice~\ref{code:closed_curve} risulta continua nel punto di raccordo con continuità di tipo $C^{k-1-m_i}$, quindi 
+essendo la curva di grado 3 \textit{(e ordine 4)} fino alla derivata seconda abbiamo continuità, dalla derivata quarta in poi invece viene restituito $0$.
+\begin{verbatim}
+Continuita': 0
+    "21 21"
+    "7.66667 7.66667"
+Continuita': 1
+    "-80 -80"
+    "8 8"
+Continuita': 2
+    "768 768"
+    "-128 -128"
+Continuita': 3
+    "-6656 -11776"
+    "1536 -3072"
+Continuita': 4
+    "0 0"
+    "0 0"
+\end{verbatim}
 
 \subsection{Interpolazione}
 
