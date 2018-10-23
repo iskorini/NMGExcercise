@@ -12,7 +12,7 @@ fnplt(fnbrk(curve, [knots(k), knots(end-k+1)]));
 for i = 1:k-1
     plot(x_p(i), y_p(i), 'ro-', 'markersize', 8, 'MarkerFaceColor','r');
 end
-for i = 0:k
+for i = 0:k-2
     disp("Continuita': "+i);
     der = fnder(curve, i);
     disp(fnval(der, knots(k))+" "+fnval(der, knots(end-k+1)));

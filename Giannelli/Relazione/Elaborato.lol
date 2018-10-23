@@ -10,5 +10,5 @@
 \contentsline {lstlisting}{\numberline {10}Base delle superfici di B\IeC {\'e}zier}{22}{lstlisting.10}
 \contentsline {lstlisting}{\numberline {11}Disegno di una superficie di B\IeC {\'e}zier}{23}{lstlisting.11}
 \contentsline {lstlisting}{\numberline {12}Trasformazione affine}{25}{lstlisting.12}
-\contentsline {lstlisting}{\numberline {13}Curve di bordo}{27}{lstlisting.13}
-\contentsline {lstlisting}{\numberline {14}Algoritmo di De Casteljau}{28}{lstlisting.14}
+\contentsline {lstlisting}{\numberline {13}Curve di bordo}{26}{lstlisting.13}
+\contentsline {lstlisting}{\numberline {14}Algoritmo di De Casteljau}{27}{lstlisting.14}
